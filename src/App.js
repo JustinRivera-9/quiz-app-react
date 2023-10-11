@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import LandingPage from "./components/LandingPage";
+import Header from "./components/Header.js";
+import Quiz from "./quiz-page/Quiz";
+import { useState } from "react";
 
 function App() {
+  const [page, setPage] = useState("landing");
+  const [quizSetup, setQuizSetup] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      style={{ margin: 0, padding: 0 }}
+      className="h-screen w-screen bg-gray-900"
+    >
+      <Header setPage={setPage} />
+      {page === "landing" && (
+        <LandingPage quizSetup={setQuizSetup} setPage={setPage} />
+      )}
+      {page === "quiz" && <Quiz quizParam={quizSetup} />}
     </div>
   );
 }
