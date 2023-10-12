@@ -22,7 +22,7 @@ function Header({ setPage }) {
         target="_blank"
         rel="noreferrer"
       >
-        <GitHub fontSize="large" />
+        <GitHub sx={{ color: "white" }} fontSize="large" />
       </a>
     </div>
   );

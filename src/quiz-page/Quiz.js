@@ -9,7 +9,7 @@ const initialState = {
   difficulty: "",
   questions: { question: "", answersArr: [], correctAnswer: [] },
   numCorrect: 0,
-  currentQuestion: 5,
+  currentQuestion: 0,
   isLoading: true,
   error: "",
 };
@@ -50,8 +50,6 @@ function Quiz({ quizParam }) {
     if (!isLoading && data) dispatch({ type: "dataFetched", payload: data });
   }, [isLoading, data]);
 
-  console.log(quizData);
-
   return (
     <>
       {!quizData.isLoading && quizData ? (
@@ -59,7 +57,6 @@ function Quiz({ quizParam }) {
       ) : (
         <LoadingData />
       )}
-      {/* <ProgressBar /> */}
     </>
   );
 }
