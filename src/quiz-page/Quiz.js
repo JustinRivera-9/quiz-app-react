@@ -57,15 +57,10 @@ function Quiz({ quizParam }) {
     if (!isLoading && data) dispatch({ type: "dataFetched", payload: data });
   }, [isLoading, data]);
 
-  function handleAnswer(answer) {
-    if (answer) dispatch({ type: "submitAnswer", payload: answer });
-    else console.log(answer);
-  }
-
   return (
     <>
       {!quizData.isLoading && quizData ? (
-        <Question quizData={quizData} updateAnswer={handleAnswer} />
+        <Question quizData={quizData} />
       ) : (
         <LoadingData />
       )}

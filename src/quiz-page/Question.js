@@ -4,7 +4,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useState } from "react";
 
-function Question({ quizData, updateAnswer }) {
+function Question({ quizData }) {
   const { questions, numCorrect, currentQuestion, category, difficulty } =
     quizData;
 
