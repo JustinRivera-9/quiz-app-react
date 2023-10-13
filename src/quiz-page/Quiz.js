@@ -35,6 +35,13 @@ function reducer(state, action) {
         isLoading: false,
       };
 
+    case "submitAnswer":
+      // console.log(action.payload, state);
+      if (action.payload === state.questions[0].correctAnswer) {
+        return console.log("TEST");
+      }
+      break;
+
     default:
       return state;
   }
@@ -50,10 +57,15 @@ function Quiz({ quizParam }) {
     if (!isLoading && data) dispatch({ type: "dataFetched", payload: data });
   }, [isLoading, data]);
 
+  function handleAnswer(answer) {
+    if (answer) dispatch({ type: "submitAnswer", payload: answer });
+    else console.log(answer);
+  }
+
   return (
     <>
       {!quizData.isLoading && quizData ? (
-        <Question quizData={quizData} />
+        <Question quizData={quizData} updateAnswer={handleAnswer} />
       ) : (
         <LoadingData />
       )}
