@@ -1,42 +1,57 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SectionProgress from "./SectionProgress";
 import Button from "@mui/material/Button";
 
-function Question({ quizData }) {
-  const { category, currentQuestion, difficulty, numCorrect, questions } =
-    quizData;
-  const [answer, setAnswer] = useState("");
+const initialState = { numCorrect: 0, currentQuestion: 0, userAnswer: "" };
 
-  function handleSubmit() {
-    console.log(answer);
+function reducer(state, action) {
+  switch (action.type) {
+    case "selectAnswer":
+      return { ...state, userAnswer: action.payload };
+
+    case "submitAnswer":
+      if (!state.userAnswer) return { ...state };
+      return { ...state, currentQuestion: state.currentQuestion + 1 };
+
+    default:
+      break;
   }
+}
+
+function Question({ quizData }) {
+  const [quiz, dispatch] = useReducer(reducer, initialState);
+  const { category, difficulty, questions } = quizData;
+
+  console.log(quiz);
 
   return (
     <>
       <SectionProgress
-        curQuestion={currentQuestion}
+        curQuestion={quiz.currentQuestion}
         category={category}
         difficulty={difficulty}
       />
       <div className="ml-52 mt-16 flex flex-col justify-center w-3/5">
         <div className="text-white text-3xl">
-          {questions[currentQuestion].question}
+          {questions[quiz.currentQuestion].question}
         </div>
         <RadioGroup
           aria-labelledby="controlled-radio-buttons-group"
           name="Answers Group"
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
+          value={quiz.userAnswer}
+          onChange={(e) =>
+            dispatch({ type: "selectAnswer", payload: e.target.value })
+          }
           sx={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
           }}
         >
-          {questions[currentQuestion].answersArr.map((answer, i) => (
+          {questions[quiz.currentQuestion].answersArr.map((answer, i) => (
             <FormControlLabel
               value={answer}
               id={i}
@@ -53,7 +68,7 @@ function Question({ quizData }) {
       </div>
       <div className="flex justify-center">
         <Button
-          onClick={handleSubmit}
+          onClick={() => dispatch({ type: "submitAnswer" })}
           variant="contained"
           sx={{
             marginTop: "1rem",
