@@ -3,7 +3,7 @@ function SectionProgress({ curQuestion, category, difficulty }) {
     <>
       <div className="flex justify-around">
         <div className="text-xl text-gray-200">{difficulty}</div>
-        <div className="text-2xl font-bold text-fuchsia-600">
+        <div className="text-2xl font-bold" style={{ color: "#2196f3" }}>
           {(curQuestion / 10) * 100}%
         </div>
         <div className="text-xl text-gray-200">{category}</div>
@@ -13,7 +13,7 @@ function SectionProgress({ curQuestion, category, difficulty }) {
           style={{
             height: "100%",
             width: `${(curQuestion / 10) * 100}%`,
-            backgroundColor: "#C026D3",
+            backgroundColor: "#2196f3",
           }}
         ></div>
       </div>

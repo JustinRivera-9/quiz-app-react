@@ -4,7 +4,7 @@ function Header({ setPage }) {
   return (
     <div className="flex justify-between align-center py-4 px-6 mb-8">
       <button
-        className="pl-1 text-gray-200 text-3xl hover:text-fuchsia-600"
+        className="pl-1 text-gray-200 text-3xl"
         onClick={() => setPage("landing")}
       >
         THE ULTIMATE QUIZ

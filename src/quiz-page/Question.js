@@ -5,6 +5,20 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import SectionProgress from "./SectionProgress";
 import Button from "@mui/material/Button";
 
+const submitBtnStyles = {
+  marginTop: "1rem",
+  color: "#fff",
+  padding: "1rem",
+  fontSize: "1rem",
+  borderRadius: "16px",
+  backgroundColor: "#2196f3",
+  ":hover": {
+    bgcolor: "#fff",
+    color: "#2196f3",
+  },
+};
+
+///////////// REDUCER
 const initialState = { numCorrect: 0, currentQuestion: 0, userAnswer: "" };
 
 function reducer(state, action) {
@@ -16,11 +30,15 @@ function reducer(state, action) {
       if (!state.userAnswer) return { ...state };
       return { ...state, currentQuestion: state.currentQuestion + 1 };
 
+    case "cleanup":
+      return { ...state, userAnswer: "" };
+
     default:
       break;
   }
 }
 
+///////////// COMPONENT
 function Question({ quizData }) {
   const [quiz, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty, questions } = quizData;
@@ -35,6 +53,10 @@ function Question({ quizData }) {
         difficulty={difficulty}
       />
       <div className="ml-52 mt-16 flex flex-col justify-center w-3/5">
+        <span
+          className="text-3xl mb-4"
+          style={{ color: "#2196f3" }}
+        >{`Question #${quiz.currentQuestion + 1}`}</span>
         <div className="text-white text-3xl">
           {questions[quiz.currentQuestion].question}
         </div>
@@ -60,7 +82,7 @@ function Question({ quizData }) {
               label={answer}
               sx={{
                 margin: "0.75rem",
-                color: "#c026d3",
+                color: "#fff",
               }}
             />
           ))}
@@ -68,20 +90,12 @@ function Question({ quizData }) {
       </div>
       <div className="flex justify-center">
         <Button
-          onClick={() => dispatch({ type: "submitAnswer" })}
-          variant="contained"
-          sx={{
-            marginTop: "1rem",
-            color: "#c026d3",
-            padding: "1rem",
-            fontSize: "1rem",
-            borderRadius: "16px",
-            backgroundColor: "#fff",
-            ":hover": {
-              bgcolor: "#C026D3",
-              color: "#fff",
-            },
+          onClick={() => {
+            dispatch({ type: "submitAnswer" });
+            dispatch({ type: "cleanup" });
           }}
+          variant="contained"
+          sx={submitBtnStyles}
         >
           Submit
         </Button>
