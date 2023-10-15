@@ -19,7 +19,7 @@ const submitBtnStyles = {
 };
 
 ///////////// REDUCER
-const initialState = { numCorrect: 0, currentQuestion: 0, userAnswer: "" };
+const initialState = { currentQuestion: 0, userAnswer: "", quizAnswers: [] };
 
 function reducer(state, action) {
   switch (action.type) {
@@ -28,10 +28,16 @@ function reducer(state, action) {
 
     case "submitAnswer":
       if (!state.userAnswer) return { ...state };
-      return { ...state, currentQuestion: state.currentQuestion + 1 };
+      const correctAnswer = action.payload;
+
+      return { ...state, correctAnswer };
 
     case "cleanup":
-      return { ...state, userAnswer: "" };
+      return {
+        quizAnswers: state.quizAnswers.push(state),
+        userAnswer: "",
+        currentQuestion: state.currentQuestion + 1,
+      };
 
     default:
       break;
@@ -42,9 +48,7 @@ function reducer(state, action) {
 function Question({ quizData }) {
   const [quiz, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty, questions } = quizData;
-
   console.log(quiz);
-
   return (
     <>
       <SectionProgress
@@ -91,7 +95,10 @@ function Question({ quizData }) {
       <div className="flex justify-center">
         <Button
           onClick={() => {
-            dispatch({ type: "submitAnswer" });
+            dispatch({
+              type: "submitAnswer",
+              payload: quizData.questions[quiz.currentQuestion].correctAnswer,
+            });
             dispatch({ type: "cleanup" });
           }}
           variant="contained"
