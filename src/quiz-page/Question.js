@@ -19,7 +19,12 @@ const submitBtnStyles = {
 };
 
 ///////////// REDUCER
-const initialState = { numCorrect: 0, currentQuestion: 0, userAnswer: "" };
+const initialState = {
+  numCorrect: 0,
+  currentQuestion: 0,
+  userAnswer: "",
+  quizInfo: [],
+};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -27,11 +32,19 @@ function reducer(state, action) {
       return { ...state, userAnswer: action.payload };
 
     case "submitAnswer":
-      if (!state.userAnswer) return { ...state };
-      return { ...state, currentQuestion: state.currentQuestion + 1 };
+      if (!state.userAnswer || state.currentQuestion > 9) return { ...state };
+      return {
+        ...state,
+        quizInfo: [...state.quizInfo, { ...state, ...action.payload }],
+      };
 
     case "cleanup":
-      return { ...state, userAnswer: "" };
+      if (!state.userAnswer || state.currentQuestion > 9) return { ...state };
+      return {
+        ...state,
+        userAnswer: "",
+        currentQuestion: state.currentQuestion + 1,
+      };
 
     default:
       break;
@@ -43,7 +56,7 @@ function Question({ quizData }) {
   const [quiz, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty, questions } = quizData;
 
-  console.log(quiz);
+  // console.log(quiz);
 
   return (
     <>
@@ -73,31 +86,35 @@ function Question({ quizData }) {
             justifyContent: "center",
           }}
         >
-          {questions[quiz.currentQuestion].answersArr.map((answer, i) => (
-            <FormControlLabel
-              value={answer}
-              id={i}
-              key={i}
-              control={<Radio size="medium" />}
-              label={answer}
-              sx={{
-                margin: "0.75rem",
-                color: "#fff",
-              }}
-            />
-          ))}
+          {quiz.currentQuestion < 10 &&
+            questions[quiz.currentQuestion].answersArr.map((answer, i) => (
+              <FormControlLabel
+                value={answer}
+                id={i}
+                key={i}
+                control={<Radio size="medium" />}
+                label={answer}
+                sx={{
+                  margin: "0.75rem",
+                  color: "#fff",
+                }}
+              />
+            ))}
         </RadioGroup>
       </div>
       <div className="flex justify-center">
         <Button
           onClick={() => {
-            dispatch({ type: "submitAnswer" });
+            dispatch({
+              type: "submitAnswer",
+              payload: { category, difficulty, questions },
+            });
             dispatch({ type: "cleanup" });
           }}
           variant="contained"
           sx={submitBtnStyles}
         >
-          Submit
+          {quiz.currentQuestion === 9 ? "Finish Quiz" : "Submit"}
         </Button>
       </div>
     </>
