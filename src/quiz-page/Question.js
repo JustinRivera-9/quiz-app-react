@@ -32,19 +32,11 @@ function reducer(state, action) {
       return { ...state, userAnswer: action.payload };
 
     case "submitAnswer":
-      if (!state.userAnswer || state.currentQuestion > 9) return { ...state };
-      return {
-        ...state,
-        quizInfo: [...state.quizInfo, { ...state, ...action.payload }],
-      };
+      if (!state.userAnswer) return { ...state };
+      return { ...state, currentQuestion: state.currentQuestion + 1 };
 
     case "cleanup":
-      if (!state.userAnswer || state.currentQuestion > 9) return { ...state };
-      return {
-        ...state,
-        userAnswer: "",
-        currentQuestion: state.currentQuestion + 1,
-      };
+      return { ...state, userAnswer: "" };
 
     default:
       break;
@@ -56,7 +48,7 @@ function Question({ quizData }) {
   const [quiz, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty, questions } = quizData;
 
-  // console.log(quiz);
+  console.log(quiz);
 
   return (
     <>
@@ -105,10 +97,7 @@ function Question({ quizData }) {
       <div className="flex justify-center">
         <Button
           onClick={() => {
-            dispatch({
-              type: "submitAnswer",
-              payload: { category, difficulty, questions },
-            });
+            dispatch({ type: "submitAnswer" });
             dispatch({ type: "cleanup" });
           }}
           variant="contained"
