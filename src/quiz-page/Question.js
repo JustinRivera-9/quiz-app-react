@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import Reuslts from "./Reuslts";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -25,34 +26,44 @@ const initialState = {
   userAnswer: "",
   quizInfo: [],
 };
+
 function reducer(state, action) {
   switch (action.type) {
     case "selectAnswer":
       return { ...state, userAnswer: action.payload };
+
     case "submitAnswer":
-      if (!state.userAnswer || state.currentQuestion > 9) return { ...state };
+      if (!state.userAnswer || state.currentQuestion >= 10) return { ...state };
       return {
         ...state,
         quizInfo: [...state.quizInfo, { ...state, ...action.payload }],
       };
+
     case "cleanup":
-      if (!state.userAnswer || state.currentQuestion > 9) return { ...state };
+      if (!state.userAnswer || state.currentQuestion >= 10) return { ...state };
       return {
         ...state,
         userAnswer: "",
         currentQuestion: state.currentQuestion + 1,
       };
+
+    case "finishQuiz":
+      console.log(action.payload);
+      return { ...state };
+
     default:
       break;
   }
 }
+
 ///////////// COMPONENT
 function Question({ quizData }) {
   const [quiz, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty, questions } = quizData;
-  // console.log(quiz);
 
-  return (
+  const isQuizFinished = quiz.currentQuestion > 9;
+
+  return !isQuizFinished ? (
     <>
       <SectionProgress
         curQuestion={quiz.currentQuestion}
@@ -97,21 +108,43 @@ function Question({ quizData }) {
         </RadioGroup>
       </div>
       <div className="flex justify-center">
-        <Button
-          onClick={() => {
-            dispatch({
-              type: "submitAnswer",
-              payload: { category, difficulty, questions },
-            });
-            dispatch({ type: "cleanup" });
-          }}
-          variant="contained"
-          sx={submitBtnStyles}
-        >
-          {quiz.currentQuestion === 9 ? "Finish Quiz" : "Submit"}
-        </Button>
+        {quiz.currentQuestion === 9 ? (
+          <Button
+            onClick={() => {
+              dispatch({
+                type: "finishQuiz",
+                payload: { quiz },
+              });
+              dispatch({
+                type: "submitAnswer",
+                payload: { category, difficulty, questions },
+              });
+              dispatch({ type: "cleanup" });
+            }}
+            variant="contained"
+            sx={submitBtnStyles}
+          >
+            Finish Quiz
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              dispatch({
+                type: "submitAnswer",
+                payload: { category, difficulty, questions },
+              });
+              dispatch({ type: "cleanup" });
+            }}
+            variant="contained"
+            sx={submitBtnStyles}
+          >
+            Submit
+          </Button>
+        )}
       </div>
     </>
+  ) : (
+    <Reuslts quizResults={quiz} />
   );
 }
 export default Question;
