@@ -21,7 +21,6 @@ const submitBtnStyles = {
 
 ///////////// REDUCER
 const initialState = {
-  numCorrect: 0,
   currentQuestion: 0,
   userAnswer: "",
   quizInfo: [],
@@ -47,9 +46,9 @@ function reducer(state, action) {
         currentQuestion: state.currentQuestion + 1,
       };
 
-    case "finishQuiz":
-      console.log(action.payload);
-      return { ...state };
+    // case "finishQuiz":
+    //   console.log(action.payload);
+    //   return { ...state };
 
     default:
       break;
@@ -111,10 +110,10 @@ function Question({ quizData }) {
         {quiz.currentQuestion === 9 ? (
           <Button
             onClick={() => {
-              dispatch({
-                type: "finishQuiz",
-                payload: { quiz },
-              });
+              // dispatch({
+              //   type: "finishQuiz",
+              //   payload: { quiz },
+              // });
               dispatch({
                 type: "submitAnswer",
                 payload: { category, difficulty, questions },
@@ -144,7 +143,7 @@ function Question({ quizData }) {
       </div>
     </>
   ) : (
-    <Reuslts quizResults={quiz} />
+    <Reuslts quizResults={quiz.quizInfo} />
   );
 }
 export default Question;

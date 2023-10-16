@@ -8,8 +8,6 @@ const initialState = {
   category: "",
   difficulty: "",
   questions: { question: "", answersArr: [], correctAnswer: [] },
-  numCorrect: 0,
-  currentQuestion: 0,
   isLoading: true,
   error: "",
 };
