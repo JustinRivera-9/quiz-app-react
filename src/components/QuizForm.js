@@ -59,7 +59,7 @@ function QuizForm({ onSubmit }) {
 
   return (
     categories && (
-      <div className="flex justify-center pb-60">
+      <div className="flex justify-center">
         <Button
           onClick={handleClickOpen}
           variant="contained"
