@@ -9,8 +9,8 @@ function App() {
 
   return (
     <div
-      style={{ margin: 0, padding: 0 }}
-      className="h-screen w-screen bg-gray-900"
+      style={{ margin: 0, padding: 0, paddingLeft: "1rem" }}
+      className="h-full w-screen bg-gray-900"
     >
       <Header setPage={setPage} />
       {page === "landing" && (
