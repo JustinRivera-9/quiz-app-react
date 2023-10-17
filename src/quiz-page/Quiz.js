@@ -1,5 +1,6 @@
 import { useReducer, useEffect } from "react";
 import { useFetchData } from "../hooks/useFetchData.js";
+import { shuffleArray } from "../hooks/utilityFunctions.js";
 import LoadingData from "./LoadingData.js";
 import Question from "./Question.js";
 
@@ -26,7 +27,10 @@ function reducer(state, action) {
         questions: action.payload.results.map((el) => {
           return {
             question: el.question,
-            answersArr: [el.correct_answer, ...el.incorrect_answers],
+            answersArr: shuffleArray([
+              el.correct_answer,
+              ...el.incorrect_answers,
+            ]),
             correctAnswer: el.correct_answer,
           };
         }),
