@@ -26,7 +26,7 @@ function reducer(state, action) {
         difficulty: action.payload.results[0].difficulty,
         questions: action.payload.results.map((el) => {
           return {
-            question: el.question,
+            question: `${el.question}`,
             answersArr: shuffleArray([
               el.correct_answer,
               ...el.incorrect_answers,

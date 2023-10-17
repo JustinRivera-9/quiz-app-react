@@ -46,10 +46,6 @@ function reducer(state, action) {
         currentQuestion: state.currentQuestion + 1,
       };
 
-    // case "finishQuiz":
-    //   console.log(action.payload);
-    //   return { ...state };
-
     default:
       break;
   }
