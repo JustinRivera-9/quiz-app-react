@@ -30,15 +30,14 @@ function Reuslts({ quizResults }) {
                 border: "3px solid green",
                 borderRadius: "0.75rem",
               }}
-            >{`${el.questions[i].correctAnswer}`}</div>
+            >{`Correct Answer: ${el.questions[i].correctAnswer}`}</div>
             <div
               className="text-xl text-white p-4 w-4/12 mt-4"
               style={{
                 border: `3px solid ${isCorrect ? "green" : "red"}`,
                 borderRadius: "0.75rem",
               }}
-            >{`${el.userAnswer}`}</div>
-            <div>{`${isCorrect ? "✅" : "❌"}`}</div>
+            >{`${isCorrect ? "✅" : "❌"} Your Answer: ${el.userAnswer}`}</div>
           </div>
         );
       })}

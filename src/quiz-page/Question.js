@@ -110,10 +110,6 @@ function Question({ quizData }) {
         {quiz.currentQuestion === 9 ? (
           <Button
             onClick={() => {
-              // dispatch({
-              //   type: "finishQuiz",
-              //   payload: { quiz },
-              // });
               dispatch({
                 type: "submitAnswer",
                 payload: { category, difficulty, questions },

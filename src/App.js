@@ -8,7 +8,7 @@ function App() {
   const [quizSetup, setQuizSetup] = useState(null);
 
   return (
-    <div className="m-0 p-0 h-screen bg-gray-900">
+    <div className="m-0 p-0 min-h-full bg-gray-900">
       <Header setPage={setPage} />
       {page === "landing" && (
         <LandingPage quizSetup={setQuizSetup} setPage={setPage} />
