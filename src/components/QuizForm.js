@@ -59,7 +59,7 @@ function QuizForm({ onSubmit }) {
 
   return (
     categories && (
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-60">
         <Button
           onClick={handleClickOpen}
           variant="contained"
@@ -67,10 +67,9 @@ function QuizForm({ onSubmit }) {
             padding: "1rem",
             fontSize: "1.25rem",
             borderRadius: "16px",
-            backgroundColor: "#C026D3",
             ":hover": {
               bgcolor: "#fff",
-              color: "#C026D3",
+              color: "#2196f3",
             },
           }}
         >
