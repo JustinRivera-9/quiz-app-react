@@ -18,7 +18,7 @@ function Header({ setPage }) {
       {/* <button className="pr-1 text-2xl" onClick={() => setPage('rankings')}>View Rankings</button> */}
       <a
         style={{ float: "right" }}
-        href="https://github.com/JustinRivera-9/the-quiz"
+        href="https://github.com/JustinRivera-9/quiz-app-react"
         target="_blank"
         rel="noreferrer"
       >
