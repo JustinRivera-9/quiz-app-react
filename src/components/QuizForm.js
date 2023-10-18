@@ -46,15 +46,24 @@ function QuizForm({ onSubmit }) {
   };
   const handleClose = (e, reason) => {
     setOpen(false);
+    dispatch({ type: "cancel" });
     // if (reason !== "backdropClick") {
     //   setOpen(false);
     // }
   };
 
   const handleForm = (str) => {
-    setOpen(false);
-    if (str === "cancel") dispatch({ type: "cancel" });
-    if (str === "submit") onSubmit(formData);
+    if (str === "cancel") {
+      setOpen(false);
+      dispatch({ type: "cancel" });
+    }
+
+    if (str === "submit") {
+      if (!formData.category || !formData.difficulty)
+        return alert("Must select a category and difficulty to generate quiz!");
+      setOpen(false);
+      onSubmit(formData);
+    }
   };
 
   return (
@@ -76,13 +85,14 @@ function QuizForm({ onSubmit }) {
           Start your Quiz
         </Button>
         <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-          <DialogTitle>Build Your Quiz</DialogTitle>
+          <DialogTitle sx={{ color: "#2196f3" }}>Build Your Quiz</DialogTitle>
           <DialogContent>
             <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <FormControl required sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel htmlFor="Category">Category</InputLabel>
                 <Select
-                  native
+                  labelId="Category"
+                  label="Category"
                   value={category}
                   id="Category"
                   input={<OutlinedInput label="Category" id="Category" />}
@@ -91,16 +101,17 @@ function QuizForm({ onSubmit }) {
                   }
                 >
                   {categories.map((category) => (
-                    <option value={category.id} key={category.id}>
+                    <MenuItem value={category.id} key={category.id}>
                       {category.name}
-                    </option>
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="difficulty">Difficulty</InputLabel>
+              <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="Difficulty">Difficulty</InputLabel>
                 <Select
                   labelId="Difficulty"
+                  label="Difficulty"
                   id="Difficulty"
                   value={difficulty}
                   input={<OutlinedInput label="Difficulty" id="Difficulty" />}
@@ -108,9 +119,9 @@ function QuizForm({ onSubmit }) {
                     dispatch({ type: "difficulty", payload: e.target.value })
                   }
                 >
-                  <MenuItem value={"easy"}>easy</MenuItem>
-                  <MenuItem value={"medium"}>medium</MenuItem>
-                  <MenuItem value={"hard"}>hard</MenuItem>
+                  <MenuItem value={"easy"}>Easy</MenuItem>
+                  <MenuItem value={"medium"}>Medium</MenuItem>
+                  <MenuItem value={"hard"}>Hard</MenuItem>
                 </Select>
               </FormControl>
             </Box>
