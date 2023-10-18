@@ -1,17 +1,28 @@
 // import { useState } from "react";
-import { gradeQuiz } from "../hooks/utilityFunctions";
+import { gradeQuiz, formatString } from "../hooks/utilityFunctions";
 
 function Reuslts({ quizResults }) {
   const numCorrect = gradeQuiz(quizResults);
 
   return (
-    <div className="flex justify-center flex-col pl-8 ">
+    <div className="flex justify-center flex-col pl-8 w-3/4">
       <span className="text-5xl text-white">
         {`You got ${numCorrect} out of 10 correct!`}
         <strong style={{ color: "#2196f3" }}>{` (${
           (numCorrect / 10) * 100
         }%)`}</strong>
       </span>
+      <span className="h-1 w-full bg-gray-400 mt-4"></span>
+
+      <div className="flex justify-between w-2/4 mt-2">
+        <div className="text-3xl text-gray-400 mx-8">
+          {formatString(quizResults[0].difficulty)}
+        </div>
+        <div className="text-3xl text-gray-400 mx-8">
+          {formatString(quizResults[0].category)}
+        </div>
+      </div>
+      {/* <span className="h-1 w-full bg-gray-400 mt-4"></span> */}
       {quizResults.map((el, i) => {
         const isCorrect =
           el.userAnswer === el.questions[el.currentQuestion].correctAnswer;
