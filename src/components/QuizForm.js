@@ -10,6 +10,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Alert from "@mui/material/Alert";
 
 const initialState = { category: "", difficulty: "" };
 
@@ -29,6 +30,7 @@ function reducer(state, action) {
 function QuizForm({ onSubmit }) {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState(null);
+  const [error, setError] = useState(false);
   const [formData, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty } = formData;
 
@@ -41,15 +43,18 @@ function QuizForm({ onSubmit }) {
     fetchCategories();
   }, []);
 
+  ////////// Clears the error message from the form
+  useEffect(() => {
+    if (error) setTimeout(() => setError(false), 5000);
+  }, [error]);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = (e, reason) => {
     setOpen(false);
     dispatch({ type: "cancel" });
-    // if (reason !== "backdropClick") {
-    //   setOpen(false);
-    // }
   };
 
   const handleForm = (str) => {
@@ -59,8 +64,9 @@ function QuizForm({ onSubmit }) {
     }
 
     if (str === "submit") {
-      if (!formData.category || !formData.difficulty)
-        return alert("Must select a category and difficulty to generate quiz!");
+      if (!formData.category || !formData.difficulty) {
+        return setError(true);
+      }
       setOpen(false);
       onSubmit(formData);
     }
@@ -125,10 +131,15 @@ function QuizForm({ onSubmit }) {
                 </Select>
               </FormControl>
             </Box>
+            {error && (
+              <Alert severity="error">
+                Please select a category and difficulty
+              </Alert>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={() => handleForm("cancel")}>Cancel</Button>
-            <Button onClick={() => handleForm("submit")}>Ok</Button>
+            <Button onClick={() => handleForm("submit")}>Submit</Button>
           </DialogActions>
         </Dialog>
       </div>
