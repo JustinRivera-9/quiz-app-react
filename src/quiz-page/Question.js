@@ -5,7 +5,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SectionProgress from "./SectionProgress";
 import Button from "@mui/material/Button";
-import { formatString } from "../hooks/utilityFunctions";
+import { formatString, useTitle } from "../hooks/utilityFunctions";
 
 const submitBtnStyles = {
   marginTop: "1rem",
@@ -76,6 +76,8 @@ function Question({ quizData }) {
       type: "setProps",
       payload: { category, difficulty, questions },
     });
+
+  useTitle(`Ultimate Quiz | Question #${quiz.currentQuestion + 1}`);
 
   const quizInfo = { category, difficulty };
   const isQuizFinished = quiz.currentQuestion > 9;

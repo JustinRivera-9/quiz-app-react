@@ -1,8 +1,9 @@
 // import { useState } from "react";
-import { gradeQuiz, formatString } from "../hooks/utilityFunctions";
+import { gradeQuiz, formatString, useTitle } from "../hooks/utilityFunctions";
 
 function Reuslts({ quizResults, quizInfo }) {
   const numCorrect = gradeQuiz(quizResults);
+  useTitle(`Ultimate Quiz | Results: ${(numCorrect / 10) * 100}%`);
 
   return (
     <div className="flex mx-auto flex-col w-full px-2 md:w-8/12 lg:w-1/2">

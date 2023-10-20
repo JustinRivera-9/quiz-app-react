@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export function answerStyles(userAnswer, correctAnswer) {}
 
 export function gradeQuiz(quizInfo) {
@@ -13,3 +15,11 @@ export function shuffleArray(arr) {
 }
 
 export const formatString = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export const useTitle = (str) => {
+  useEffect(() => {
+    document.title = str;
+
+    return () => (document.title = "The Ultimate Quiz");
+  }, [str]);
+};
