@@ -103,35 +103,19 @@ function Question({ quizData }) {
         </RadioGroup>
       </div>
       <div className="flex justify-center">
-        {quiz.currentQuestion === 9 ? (
-          <Button
-            onClick={() => {
-              dispatch({
-                type: "submitAnswer",
-                payload: { category, difficulty, questions },
-              });
-              dispatch({ type: "cleanup" });
-            }}
-            variant="contained"
-            sx={submitBtnStyles}
-          >
-            Finish Quiz
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              dispatch({
-                type: "submitAnswer",
-                payload: { category, difficulty, questions },
-              });
-              dispatch({ type: "cleanup" });
-            }}
-            variant="contained"
-            sx={submitBtnStyles}
-          >
-            Submit
-          </Button>
-        )}
+        <Button
+          onClick={() => {
+            dispatch({
+              type: "submitAnswer",
+              payload: { category, difficulty, questions },
+            });
+            dispatch({ type: "cleanup" });
+          }}
+          variant="contained"
+          sx={submitBtnStyles}
+        >
+          {quiz.currentQuestion === 9 ? "Finish Quiz" : "Submit"}
+        </Button>
       </div>
     </>
   ) : (
