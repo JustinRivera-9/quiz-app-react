@@ -7,47 +7,45 @@ function LandingPage({ setPage, quizSetup }) {
   }
 
   return (
-    <div className="flex flex-wrap justify-around px-20 mt-16 w-screen h-full">
-      <div className="h-72 w-96">
-        <h2
-          className="py-4 text-4xl text-center font-semibold"
-          style={{ color: "#2196f3" }}
-        >
-          Customize Your Quiz
-        </h2>
-        <p className="px-4 text-2xl text-center text-white">
-          Choose from over 20 quiz catgeories containing more than 4,000
-          questions!<br></br>
-          <br></br>
-          Each category has an option for easy, medium or hard
-        </p>
+    <div className="mt-8">
+      <div className="flex flex-col space-y-16 xl:flex-row">
+        <div className="w-10/12 mx-auto lg:mt-16">
+          <h2
+            className="text-4xl text-center font-semibold"
+            style={{ color: "#2196f3" }}
+          >
+            Customize Your Quiz
+          </h2>
+          <p className="text-2xl text-center text-white mt-4">
+            Choose from over 20 quiz catgeories containing more than 4,000
+            questions!
+          </p>
+        </div>
+        <div className="w-10/12 mx-auto">
+          <h2
+            className="text-4xl text-center font-semibold"
+            style={{ color: "#2196f3" }}
+          >
+            Test Your Knowledge
+          </h2>
+          <p className="text-2xl text-center text-white mt-4">
+            Each quiz contains<strong> 10 Questions</strong>
+          </p>
+        </div>
+        <div className="w-10/12 mx-auto">
+          <h2
+            className="text-4xl text-center font-semibold"
+            style={{ color: "#2196f3" }}
+          >
+            See the Results!
+          </h2>
+          <p className="text-2xl text-center text-white mt-4">
+            After you finish - go through the results to see which questions you
+            got correct!
+          </p>
+        </div>
       </div>
-      <div className="h-72 w-96">
-        <h2
-          className="py-4 text-4xl text-center font-semibold"
-          style={{ color: "#2196f3" }}
-        >
-          Test Your Knowledge
-        </h2>
-        <p className="px-4 text-2xl text-center text-white">
-          Each quiz contains<strong> 10 Questions</strong> <br></br>
-          <br></br> For each question you will get
-          <strong> 15 seconds</strong> to submit an answer.
-        </p>
-      </div>
-      <div className="h-72 w-96">
-        <h2
-          className="py-4 text-4xl text-center font-semibold"
-          style={{ color: "#2196f3" }}
-        >
-          See the Results!
-        </h2>
-        <p className="px-4 text-2xl text-center text-white">
-          After you finish - go through the results to see which questions you
-          got correct!
-        </p>
-      </div>
-      <div className="mx-40">
+      <div className="flex justify-center py-16">
         <QuizForm onSubmit={handlePageChange} />
       </div>
     </div>

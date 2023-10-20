@@ -87,12 +87,12 @@ function Question({ quizData }) {
         category={category}
         difficulty={difficulty}
       />
-      <div className="ml-52 mt-16 flex flex-col justify-center w-3/5">
+      <div className="mt-8 flex flex-col mx-auto w-9/12">
         <span
           className="text-3xl mb-4"
           style={{ color: "#2196f3" }}
         >{`Question #${quiz.currentQuestion + 1}`}</span>
-        <div className="text-white text-3xl">
+        <div className="text-white text-3xl my-4">
           {questions[quiz.currentQuestion].question}
         </div>
         <RadioGroup
@@ -117,14 +117,14 @@ function Question({ quizData }) {
                 control={<Radio size="medium" />}
                 label={answer}
                 sx={{
-                  margin: "0.75rem",
+                  margin: ".75rem 0.25rem",
                   color: "#fff",
                 }}
               />
             ))}
         </RadioGroup>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-12">
         <Button
           onClick={() => {
             dispatch({

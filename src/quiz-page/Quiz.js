@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from "react";
 import { useFetchData } from "../hooks/useFetchData.js";
 import { shuffleArray } from "../hooks/utilityFunctions.js";
-import LoadingData from "./LoadingData.js";
+import Loading from "./Loading.js";
 import Question from "./Question.js";
 
 //check if initial state for reducer can be inside a component or if it should be a global variable
@@ -12,7 +12,7 @@ const initialState = {
   isLoading: true,
   error: "",
 };
-
+//
 function reducer(state, action) {
   switch (action.type) {
     case "dataFetched":
@@ -24,6 +24,7 @@ function reducer(state, action) {
         ...state,
         category: action.payload.results[0].category,
         difficulty: action.payload.results[0].difficulty,
+        isLoading: false,
         questions: action.payload.results.map((el) => {
           return {
             question: `${el.question}`,
@@ -34,7 +35,6 @@ function reducer(state, action) {
             correctAnswer: el.correct_answer,
           };
         }),
-        isLoading: false,
       };
 
     default:
@@ -57,7 +57,7 @@ function Quiz({ quizParam }) {
       {!quizData.isLoading && quizData ? (
         <Question quizData={quizData} />
       ) : (
-        <LoadingData />
+        <Loading isLoading={isLoading} />
       )}
     </>
   );
