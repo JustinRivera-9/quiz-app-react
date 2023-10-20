@@ -1,7 +1,8 @@
 // import { useState } from "react";
 import { gradeQuiz, formatString } from "../hooks/utilityFunctions";
 
-function Reuslts({ quizResults }) {
+function Reuslts({ quizResults, quizInfo }) {
+  console.log(quizResults, quizInfo);
   const numCorrect = gradeQuiz(quizResults);
 
   return (
@@ -16,39 +17,63 @@ function Reuslts({ quizResults }) {
 
       <div className="flex justify-between w-2/4 mt-2">
         <div className="text-3xl text-gray-400 mx-8">
-          {formatString(quizResults[0].difficulty)}
+          {formatString(quizInfo.difficulty)}
         </div>
         <div className="text-3xl text-gray-400 mx-8">
-          {formatString(quizResults[0].category)}
+          {formatString(quizInfo.category)}
         </div>
       </div>
-      {/* <span className="h-1 w-full bg-gray-400 mt-4"></span> */}
       {quizResults.map((el, i) => {
-        const isCorrect =
-          el.userAnswer === el.questions[el.currentQuestion].correctAnswer;
-
         return (
           <div key={i} className="flex justify-center flex-col my-4">
             <div className="text-xl text-white py-4 ">
               <span className="text-3xl" style={{ color: "#2196f3" }}>
-                Question #{`${i + 1}`}{" "}
+                Question #{`${i + 1}`}
               </span>
-              <span className="text-2xl">{`${el.questions[i].question}`}</span>
+              <span className="text-2xl">{` ${el.question}`}</span>
             </div>
-            <div
-              className="text-xl text-white p-4 w-4/12"
-              style={{
-                border: "3px solid green",
-                borderRadius: "0.75rem",
-              }}
-            >{`Correct Answer: ${el.questions[i].correctAnswer}`}</div>
-            <div
-              className="text-xl text-white p-4 w-4/12 mt-4"
-              style={{
-                border: `3px solid ${isCorrect ? "green" : "red"}`,
-                borderRadius: "0.75rem",
-              }}
-            >{`${isCorrect ? "✅" : "❌"} Your Answer: ${el.userAnswer}`}</div>
+            {el.answersArr.map((answer, i) => {
+              const isCorrect =
+                answer === (el.userAnswer && el.correctAnswer) ? true : false;
+              ////// USER ANSWER
+              if (answer === el.userAnswer) {
+                return (
+                  <div
+                    key={answer}
+                    className="text-xl text-white p-4 w-4/12 mt-4"
+                    style={{
+                      border: `5px solid ${isCorrect ? "green" : "red"}`,
+                      borderRadius: "0.75rem",
+                    }}
+                  >{`${isCorrect ? "✅" : "❌"} Your Answer: ${answer}`}</div>
+                );
+              }
+
+              ////// IF USER ANSWER IS INCORRECT
+              if (answer === el.correctAnswer) {
+                return (
+                  <div
+                    key={answer}
+                    className="text-xl text-white p-4 w-4/12 mt-4"
+                    style={{
+                      border: "5px solid green",
+                      borderRadius: "0.75rem",
+                    }}
+                  >{`Correct Answer: ${answer}`}</div>
+                );
+              }
+
+              return (
+                <div
+                  key={answer}
+                  className="text-xl text-white p-4 w-4/12 mt-4"
+                  style={{
+                    border: "3px solid gray",
+                    borderRadius: "0.75rem",
+                  }}
+                >{`${answer}`}</div>
+              );
+            })}
           </div>
         );
       })}

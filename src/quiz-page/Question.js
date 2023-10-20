@@ -5,6 +5,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SectionProgress from "./SectionProgress";
 import Button from "@mui/material/Button";
+import { formatString } from "../hooks/utilityFunctions";
 
 const submitBtnStyles = {
   marginTop: "1rem",
@@ -23,19 +24,34 @@ const submitBtnStyles = {
 const initialState = {
   currentQuestion: 0,
   userAnswer: "",
-  quizInfo: [],
+  questionInfo: [],
+  category: "",
+  difficulty: "",
 };
 
 function reducer(state, action) {
   switch (action.type) {
+    case "setProps":
+      const { difficulty, category } = action.payload;
+      return {
+        ...state,
+        difficulty: formatString(difficulty),
+        category,
+      };
+
     case "selectAnswer":
       return { ...state, userAnswer: action.payload };
 
     case "submitAnswer":
       if (!state.userAnswer || state.currentQuestion >= 10) return { ...state };
+      const userAnswer = state.userAnswer;
+
       return {
         ...state,
-        quizInfo: [...state.quizInfo, { ...state, ...action.payload }],
+        questionInfo: [
+          ...state.questionInfo,
+          { ...action.payload, userAnswer },
+        ],
       };
 
     case "cleanup":
@@ -55,7 +71,13 @@ function reducer(state, action) {
 function Question({ quizData }) {
   const [quiz, dispatch] = useReducer(reducer, initialState);
   const { category, difficulty, questions } = quizData;
+  if (!quiz.category)
+    dispatch({
+      type: "setProps",
+      payload: { category, difficulty, questions },
+    });
 
+  const quizInfo = { category, difficulty };
   const isQuizFinished = quiz.currentQuestion > 9;
 
   return !isQuizFinished ? (
@@ -107,7 +129,7 @@ function Question({ quizData }) {
           onClick={() => {
             dispatch({
               type: "submitAnswer",
-              payload: { category, difficulty, questions },
+              payload: questions[quiz.currentQuestion],
             });
             dispatch({ type: "cleanup" });
           }}
@@ -119,7 +141,7 @@ function Question({ quizData }) {
       </div>
     </>
   ) : (
-    <Reuslts quizResults={quiz.quizInfo} />
+    <Reuslts quizResults={quiz.questionInfo} quizInfo={quizInfo} />
   );
 }
 export default Question;
